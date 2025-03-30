@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  #app:
+  #  image: 'docker-spring-boot-postgres:latest'
+  #  build:
+  #    context: .
+  #  container_name: app
+  #  depends_on:
+  #    - db
+   # environment:
+   #   - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+   #   - SPRING_DATASOURCE_USERNAME=compose-postgres
+   #   - SPRING_DATASOURCE_PASSWORD=compose-postgres
+   #   - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  postgresdb:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: avaliacao-db
+    ports:
+       - "5432:5432"
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@postgres.org
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      - postgresdb
+    volumes:
+      - pgadmin:/var/lib/pgadmin/
+
+volumes:
+  postgres_data:
+  pgadmin:
