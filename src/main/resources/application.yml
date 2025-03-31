@@ -1,3 +1,4 @@
+## spring config ##
 spring:
   application:
     name: avaliacao
@@ -32,11 +33,34 @@ spring:
       pool-name: collection-pool
   flyway:
     enabled: false
+  data:
+    web:
+      pageable:
+        default-page-size: 100
+        max-page-size: 1000
 
 springdoc:
   api-docs:
     path: /api-docs
 
+## server config ##
 server:
   servlet:
     context-path: "/api"
+  error:
+    include-message: always
+
+#### app config ####
+app:
+  application-description: '@project.description@'
+  application-version: '@project.version@'
+  minio:
+    url: http://localhost:9000
+    access-key : mini_user
+    secret-key: mini_password
+    bucket-name: sp_avaliacao
+  security:
+    allowed-origin: http://localhost:8080
+    jwt:
+      secret: 76362648-ab51-4229-aef6-3ad4ddb1a708
+      expiration: 300000 # 5 minutos

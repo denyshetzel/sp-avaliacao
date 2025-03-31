@@ -39,6 +39,26 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin/
 
+  minio:
+    image: docker.io/bitnami/minio:2022
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - minionetwork
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      - MINIO_ROOT_USER=mini_user
+      - MINIO_ROOT_PASSWORD=mini_pasword
+      - MINIO_DEFAULT_BUCKETS=sp_avaliacao
+
+networks:
+  minionetwork:
+    driver: bridge
+
 volumes:
   postgres_data:
   pgadmin:
+  minio_data:
+    driver: local
