@@ -1,5 +1,8 @@
-package br.com.avaliacao.domains.lotacao;
+package br.com.avaliacao.domains.lotacao.entitys;
 
+import br.com.avaliacao.domains.lotacao.dtos.LotacaoRequest;
+import br.com.avaliacao.domains.pessoa.entitys.PessoaEntity;
+import br.com.avaliacao.domains.unidade.entitys.UnidadeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,18 +14,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Lotacao {
+public class LotacaoEntity {
 
     @Id
     @Column(name = "lot_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pes_id", nullable = false)
-    private Integer pessoaId;
+    @ManyToOne
+    @JoinColumn(name = "pes_id")
+    private PessoaEntity pessoa;
 
-    @Column(name = "uni_id", nullable = false)
-    private Integer unidadeId;
+    @ManyToOne
+    @JoinColumn(name = "uni_id")
+    private UnidadeEntity unidade;
 
     @Column(name = "lot_data_lotacao", nullable = false)
     private LocalDate dataLotacao;
@@ -32,5 +37,10 @@ public class Lotacao {
 
     @Column(name = "lot_portaria", nullable = false, length = 100)
     private Integer portaria;
+
+    public void update(LotacaoRequest lotacaUpdate) {
+        this.dataRemocao = lotacaUpdate.getDataRemocao();
+        this.portaria = lotacaUpdate.getPortaria();
+    }
 
 }

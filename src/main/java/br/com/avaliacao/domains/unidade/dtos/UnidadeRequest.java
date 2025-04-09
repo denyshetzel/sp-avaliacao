@@ -1,6 +1,5 @@
-package br.com.avaliacao.domains.unidade;
+package br.com.avaliacao.domains.unidade.dtos;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -8,10 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UnidadeDTO {
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer id;
+public class UnidadeRequest {
 
     @NotBlank
     @Size(min = 1, max = 200)

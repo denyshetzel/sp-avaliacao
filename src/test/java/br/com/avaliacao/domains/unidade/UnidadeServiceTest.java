@@ -1,5 +1,6 @@
 package br.com.avaliacao.domains.unidade;
 
+import br.com.avaliacao.domains.unidade.entitys.UnidadeEntity;
 import br.com.avaliacao.exceptions.NotFoundException;
 import br.com.avaliacao.mocks.PageableMock;
 import br.com.avaliacao.mocks.UnidadeMock;
@@ -38,11 +39,11 @@ class UnidadeServiceTest {
     void deve_retornar_lista_paginada() {
         var pageable = PageableMock.pageable();
         var unidade = UnidadeMock.unidade();
-        var unidadeDTO = UnidadeMock.unidadeDTO();
+        var unidadeDTO = UnidadeMock.unidadeResponse();
         var unidadePage = PageableMock.createPage(Collections.singletonList(unidade));
 
         when(unidadeRepository.findAll(pageable)).thenReturn(unidadePage);
-        when(unidadeMapper.toDTO(any(Unidade.class))).thenReturn(unidadeDTO);
+        when(unidadeMapper.toDTO(any(UnidadeEntity.class))).thenReturn(unidadeDTO);
 
         var result = unidadeService.findAll(pageable);
 
@@ -56,7 +57,7 @@ class UnidadeServiceTest {
     void deve_retornar_pelo_id() {
         var id = 1;
         var unidade = UnidadeMock.unidade();
-        var unidadeDTO = UnidadeMock.unidadeDTO();
+        var unidadeDTO = UnidadeMock.unidadeResponse();
 
         when(unidadeRepository.findById(id)).thenReturn(Optional.of(unidade));
         when(unidadeMapper.toDTO(unidade)).thenReturn(unidadeDTO);
@@ -81,14 +82,15 @@ class UnidadeServiceTest {
     @Test
     @DisplayName("Deve salvar uma Unidade")
     void deve_salvar_unidade() {
-        var unidadeDTO = UnidadeMock.unidadeDTO();
-        var unidade = new Unidade();
+        var unidadeRequest = UnidadeMock.unidadeRequest();
+        var unidadeResponse = UnidadeMock.unidadeResponse();
+        var unidade = new UnidadeEntity();
 
-        when(unidadeMapper.toEntity(unidadeDTO)).thenReturn(unidade);
+        when(unidadeMapper.toEntity(unidadeRequest)).thenReturn(unidade);
         when(unidadeRepository.save(unidade)).thenReturn(unidade);
-        when(unidadeMapper.toDTO(unidade)).thenReturn(unidadeDTO);
+        when(unidadeMapper.toDTO(unidade)).thenReturn(unidadeResponse);
 
-        var result = unidadeService.save(unidadeDTO);
+        var result = unidadeService.save(unidadeRequest);
 
         assertNotNull(result);
         verify(unidadeRepository, times(1)).save(unidade);
@@ -121,12 +123,12 @@ class UnidadeServiceTest {
     @DisplayName("Deve atualizar um recurso")
     void deve_atualizar() {
         var id = 1;
-        var unidadeDTO = UnidadeMock.unidadeDTO();
+        var unidadeRequest = UnidadeMock.unidadeRequest();
         var unidade = UnidadeMock.unidade();
 
         when(unidadeRepository.findById(id)).thenReturn(Optional.of(unidade));
 
-        unidadeService.updateUnidade(id, unidadeDTO);
+        unidadeService.updateUnidade(id, unidadeRequest);
 
         verify(unidadeRepository, times(1)).findById(id);
     }
@@ -135,11 +137,11 @@ class UnidadeServiceTest {
     @DisplayName("Deve lançar NotFoundException ao tentar atualizar recurso não encontrado")
     void deve_lancar_notfoundexcetption_ao_tentar_atualizar_nao_encontrada() {
         var id = 1;
-        var unidadeDTO = UnidadeMock.unidadeDTO();
+        var unidadeRequest = UnidadeMock.unidadeRequest();
 
         when(unidadeRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> unidadeService.updateUnidade(id, unidadeDTO));
+        assertThrows(NotFoundException.class, () -> unidadeService.updateUnidade(id, unidadeRequest));
         verify(unidadeRepository, times(1)).findById(id);
     }
 }

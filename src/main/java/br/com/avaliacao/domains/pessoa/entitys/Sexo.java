@@ -1,4 +1,4 @@
-package br.com.avaliacao.domains.pessoa;
+package br.com.avaliacao.domains.pessoa.entitys;
 
 import lombok.Getter;
 

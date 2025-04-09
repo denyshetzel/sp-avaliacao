@@ -1,4 +1,4 @@
-package br.com.avaliacao.domains.pessoa;
+package br.com.avaliacao.domains.pessoa.entitys;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,14 +9,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class PessoaEndereco {
+public class PessoaEnderecoEntity {
 
     @Id
     @Column(name = "end_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pes_id", nullable = false)
-    private Integer pessoaId;
+    @ManyToOne
+    @JoinColumn(name = "pes_id")
+    private PessoaEntity pessoa;
 
 }

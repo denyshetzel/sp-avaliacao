@@ -12,6 +12,9 @@ public final class AppConstantes {
         public static final class V1 {
             public static final String V1 = "/v1";
             public static final String UNIDADES = V1 + "/unidades";
+            public static final String PESSOAS = V1 + "/pessoas";
+            public static final String CIDADES = V1 + "/cidades";
+            public static final String ENDERECOS = V1 + "/enderecos";
 
             public static final String AUTH = "/api/auth";
         }

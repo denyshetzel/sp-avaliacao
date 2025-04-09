@@ -1,6 +1,9 @@
-package br.com.avaliacao.domains.pessoa;
+package br.com.avaliacao.domains.pessoa.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,22 +14,29 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class FotoPessoa {
+public class PessoaFotoEntity {
 
     @Id
     @Column(name = "fp_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "pes_id", nullable = false)
-    private Integer pessoaId;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "pes_id")
+    private PessoaEntity pessoa;
 
+    @NotNull
     @Column(name = "fp_data", nullable = false)
     private LocalDate data;
 
+    @NotBlank
+    @Size(min = 1, max = 50)
     @Column(name = "fp_bucket", nullable = false, length = 50)
     private String bucket;
 
+    @NotBlank
+    @Size(min = 1, max = 50)
     @Column(name = "fp_hash", nullable = false, length = 50)
     private String hash;
 

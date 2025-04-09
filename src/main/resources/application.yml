@@ -38,6 +38,11 @@ spring:
       pageable:
         default-page-size: 100
         max-page-size: 1000
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
 
 springdoc:
   api-docs:
@@ -49,16 +54,19 @@ server:
     context-path: "/api"
   error:
     include-message: always
+    include-stacktrace: never
+
+## minio
+minio:
+  url: http://127.0.0.1:9000
+  access-key: root
+  secret-key: password
+  bucket-name: spavaliacao-bucket
 
 #### app config ####
 app:
   application-description: '@project.description@'
   application-version: '@project.version@'
-  minio:
-    url: http://localhost:9000
-    access-key : mini_user
-    secret-key: mini_password
-    bucket-name: sp_avaliacao
   security:
     allowed-origin: http://localhost:8080
     jwt:

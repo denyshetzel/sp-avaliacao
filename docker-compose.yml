@@ -34,28 +34,28 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - "${PGADMIN_PORT:-5050}:80"
-    depends_on:
-      - postgresdb
     volumes:
       - pgadmin:/var/lib/pgadmin/
 
   minio:
-    image: docker.io/bitnami/minio:2022
-    ports:
-      - '9000:9000'
-      - '9001:9001'
-    networks:
-      - minionetwork
+    image: minio/minio:latest
     volumes:
       - 'minio_data:/data'
     environment:
-      - MINIO_ROOT_USER=mini_user
-      - MINIO_ROOT_PASSWORD=mini_pasword
-      - MINIO_DEFAULT_BUCKETS=sp_avaliacao
-
-networks:
-  minionetwork:
-    driver: bridge
+      TZ: America/Cuiaba
+      LANG: en_US.UTF-8
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+      MINIO_ACCESS_KEY: "root"
+      MINIO_SECRET_KEY: "password"
+      MINIO_DEFAULT_BUCKETS: "spavaliacao-bucket"
+    command: server /data  --console-address ":9001"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
 
 volumes:
   postgres_data:

@@ -2,6 +2,7 @@ package br.com.avaliacao.domains.unidade;
 
 import br.com.avaliacao.Application;
 import br.com.avaliacao.config.AppConstantes;
+import br.com.avaliacao.domains.unidade.entitys.UnidadeEntity;
 import br.com.avaliacao.mocks.UnidadeMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +50,7 @@ class UnidadeControllerIntegrationIT {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBodyList(Unidade.class)
+                .expectBodyList(UnidadeEntity.class)
                 .value(unidades -> {
                     assertNotNull(unidades);
                     assertEquals(1, unidades.size());
@@ -60,13 +61,13 @@ class UnidadeControllerIntegrationIT {
     @DisplayName("Deve retornar unidade pelo ID")
     void deve_retornar_unidade_pelo_id() {
         var unidade = UnidadeMock.unidadeDB();
-        Unidade unidadeSaved = unidadeRepository.save(unidade);
+        UnidadeEntity unidadeSaved = unidadeRepository.save(unidade);
 
         webClient.get().uri(baseUrl + "/" + unidade.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(Unidade.class)
+                .expectBody(UnidadeEntity.class)
                 .value(response -> {
                     assertNotNull(response);
                     assertEquals(unidadeSaved.getNome(), response.getNome());
@@ -102,7 +103,7 @@ class UnidadeControllerIntegrationIT {
         var unidade = UnidadeMock.unidadeDB();
         unidade = unidadeRepository.save(unidade);
 
-        var unidadeUpdate = UnidadeMock.unidadeDTO();
+        var unidadeUpdate = UnidadeMock.unidadeResponse();
         unidadeUpdate.setNome("Unidade Atualizada");
 
         webClient.put().uri(baseUrl + "/" + unidade.getId())
@@ -111,7 +112,7 @@ class UnidadeControllerIntegrationIT {
                 .exchange()
                 .expectStatus().isNoContent();
 
-        Optional<Unidade> updatedUnidade = unidadeRepository.findById(unidade.getId());
+        Optional<UnidadeEntity> updatedUnidade = unidadeRepository.findById(unidade.getId());
         assertEquals("Unidade Atualizada", updatedUnidade.get().getNome());
     }
 
@@ -125,7 +126,7 @@ class UnidadeControllerIntegrationIT {
                 .exchange()
                 .expectStatus().isNoContent();
 
-        Optional<Unidade> deletedUnidade = unidadeRepository.findById(unidade.getId());
+        Optional<UnidadeEntity> deletedUnidade = unidadeRepository.findById(unidade.getId());
         assertEquals(Optional.empty(), deletedUnidade);
     }
 

@@ -1,5 +1,6 @@
-package br.com.avaliacao.domains.endereco;
+package br.com.avaliacao.domains.endereco.cidade.entitys;
 
+import br.com.avaliacao.domains.endereco.cidade.dtos.CidadeRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Cidade {
+public class CidadeEntity {
 
     @Id
     @Column(name = "cid_id", nullable = false)
@@ -21,5 +22,10 @@ public class Cidade {
 
     @Column(name = "cid_uf", nullable = false, length = 2)
     private String uf;
+
+    public void update(CidadeRequest cidadeUpdate) {
+        this.nome = cidadeUpdate.getNome();
+        this.uf = cidadeUpdate.getUf();
+    }
 
 }

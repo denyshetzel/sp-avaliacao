@@ -1,22 +1,23 @@
 package br.com.avaliacao.mocks;
 
-import br.com.avaliacao.domains.unidade.Unidade;
-import br.com.avaliacao.domains.unidade.UnidadeDTO;
+import br.com.avaliacao.domains.unidade.entitys.UnidadeEntity;
+import br.com.avaliacao.domains.unidade.dtos.UnidadeRequest;
+import br.com.avaliacao.domains.unidade.dtos.UnidadeResponse;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UnidadeMock {
 
-    public static Unidade unidadeDB(){
-        return Unidade
+    public static UnidadeEntity unidadeDB(){
+        return UnidadeEntity
                 .builder()
                 .nome("Unidade um")
                 .sigla("UU")
                 .build();
     }
 
-    public static Unidade unidade(){
-        return Unidade
+    public static UnidadeEntity unidade(){
+        return UnidadeEntity
                 .builder()
                     .id(1)
                     .nome("Unidade um")
@@ -24,12 +25,20 @@ public class UnidadeMock {
                 .build();
     }
 
-    public static UnidadeDTO unidadeDTO(){
-        return UnidadeDTO
+    public static UnidadeResponse unidadeResponse(){
+        return UnidadeResponse
                 .builder()
                     .id(1)
                     .nome("Unidade um")
                     .sigla("UU")
+                .build();
+    }
+
+    public static UnidadeRequest unidadeRequest(){
+        return UnidadeRequest
+                .builder()
+                .nome("Unidade um")
+                .sigla("UU")
                 .build();
     }
 
