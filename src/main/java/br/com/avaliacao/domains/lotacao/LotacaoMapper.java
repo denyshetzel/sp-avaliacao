@@ -7,10 +7,10 @@ import br.com.avaliacao.domains.unidade.UnidadeMapper;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {PessoaMapper.class, UnidadeMapper.class})
-public interface LotacaMapper {
+public interface LotacaoMapper {
 
     LotacaoRequest toDTO(LotacaoEntity lotacao);
 
-    LotacaoEntity toEntity(LotacaoRequest lotacaoDTO);
+    LotacaoEntity toEntity(LotacaoRequest lotacao);
 
 }

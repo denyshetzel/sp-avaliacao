@@ -1,7 +1,6 @@
 package br.com.avaliacao.domains.pessoa;
 
 import br.com.avaliacao.config.AppConstantes;
-import br.com.avaliacao.domains.endereco.EnderecoRequest;
 import br.com.avaliacao.domains.pessoa.dtos.PessoaRequest;
 import br.com.avaliacao.domains.pessoa.dtos.PessoaResponse;
 import jakarta.validation.Valid;
@@ -25,6 +24,11 @@ public class PessoaController {
     @GetMapping
     public Page<PessoaResponse> getAll(@ParameterObject Pageable pageable) {
         return pessoaService.findAll(pageable);
+    }
+
+    @GetMapping("/filter")
+    public Page<PessoaResponse> getByFilter(@ParameterObject Pageable pageable, PessoaFilter pessoaFilter) {
+        return pessoaService.findByFilter(pessoaFilter, pageable);
     }
 
     @GetMapping("/{id}")
@@ -52,22 +56,6 @@ public class PessoaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         pessoaService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{id}/endereco")
-    public ResponseEntity<Void> addEndereco(@PathVariable Integer id, @Valid @RequestBody EnderecoRequest enderecoRequest) {
-        var unidadeResponse = pessoaService.addEndereco(id, enderecoRequest);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(unidadeResponse.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
-    }
-
-    @DeleteMapping("/{id}/endereco")
-    public ResponseEntity<Void> deleteEndereco(@PathVariable Integer id) {
-        pessoaService.removeEndereco(id);
         return ResponseEntity.noContent().build();
     }
 

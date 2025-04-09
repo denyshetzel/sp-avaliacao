@@ -1,6 +1,7 @@
 package br.com.avaliacao.domains.pessoa.dtos;
 
 import br.com.avaliacao.domains.endereco.dtos.EnderecoResponse;
+import br.com.avaliacao.domains.lotacao.dtos.LotacaoResponse;
 import br.com.avaliacao.domains.pessoa.entitys.Sexo;
 import br.com.avaliacao.domains.pessoa.entitys.TipoServidor;
 import lombok.AccessLevel;
@@ -30,8 +31,10 @@ public abstract class PessoaResponse {
 
     public TipoServidor tipoServidor;
 
-    private Set<PessoaFotoResponse> fotosPessoa;
+    private Set<PessoaFotoResponse> fotos;
 
     private EnderecoResponse endereco;
+
+    private LotacaoResponse lotacao;
 
 }

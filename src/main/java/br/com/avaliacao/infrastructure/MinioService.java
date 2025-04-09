@@ -2,13 +2,14 @@ package br.com.avaliacao.infrastructure;
 
 import io.minio.*;
 import io.minio.errors.MinioException;
-import lombok.Getter;
+import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +38,25 @@ public class MinioService {
     public InputStream downloadFile(String objectName) throws Exception {
         try {
             return minioClient.getObject(
-                    GetObjectArgs.builder()
+                    GetObjectArgs
+                            .builder()
                             .bucket(bucketName)
+                            .object(objectName)
+                            .build()
+            );
+        } catch (MinioException e) {
+            throw new Exception("Erro ao baixar arquivo do MinIO", e);
+        }
+    }
+
+    public String generateUrl(String objectName) throws Exception {
+        try {
+            return minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs
+                            .builder()
+                            .bucket(bucketName)
+                            .expiry((int) TimeUnit.MINUTES.toSeconds(5))
+                            .method(Method.GET)
                             .object(objectName)
                             .build()
             );
@@ -50,7 +68,8 @@ public class MinioService {
     public void deleteFile(String objectName) throws Exception {
         try {
             minioClient.removeObject(
-                    RemoveObjectArgs.builder()
+                    RemoveObjectArgs
+                            .builder()
                             .bucket(bucketName)
                             .object(objectName)
                             .build()

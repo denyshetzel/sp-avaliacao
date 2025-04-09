@@ -26,16 +26,15 @@ public class PessoaFotoController {
 
     private final PessoaService pessoaService;
 
-    @PostMapping(value = "/{pessoaId}/fotos/{fileName}",
+    @PostMapping(value = "/{pessoaId}/fotos",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> createFoto(@NotNull @PathVariable Integer pessoaId,
-                                           @PathVariable @NotBlank @Size(max = 50) String fileName,
                                            @RequestPart("file") MultipartFile file) {
-        pessoaService.saveFoto(pessoaId, fileName, file);
+        pessoaService.saveFoto(pessoaId, file);
         System.out.println(ServletUriComponentsBuilder.newInstance());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{pessoaId}/fotos/{fileName}")
-                .buildAndExpand(pessoaId, fileName)
+                .path("/{pessoaId}/fotos")
+                .buildAndExpand(pessoaId)
                 .toUri();
         return ResponseEntity.created(location).build();
     }
@@ -49,16 +48,13 @@ public class PessoaFotoController {
 
     @SneakyThrows(Exception.class)
     @GetMapping("/{pessoaId}/fotos/{fileName}")
-    public void downloadFoto(@PathVariable Integer pessoaId, @PathVariable("fileName") String fileName, HttpServletResponse response) {
-            InputStream fileInputStream = pessoaService.dowloadFoto(pessoaId, fileName);
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.setContentType("application/force-download");
-            response.setCharacterEncoding("UTF-8");
-            IOUtils.copy(fileInputStream, response.getOutputStream());
+    public ResponseEntity<String> generateUrlFoto(@PathVariable Integer pessoaId, @PathVariable("fileName") String fileName) {
+        var url = pessoaService.generateUrlFoto(pessoaId, fileName);
+        return ResponseEntity.ok(url);
     }
 
     @DeleteMapping("/{pessoaId}/fotos/{fotoId}")
-    public ResponseEntity<Void> deleteFoto(@PathVariable Integer pessoaId, @PathVariable("fotoId") Integer fotoId, HttpServletResponse response) {
+    public ResponseEntity<Void> deleteFoto(@PathVariable Integer pessoaId, @PathVariable("fotoId") Integer fotoId) {
         pessoaService.removeFoto(pessoaId, fotoId);
         return ResponseEntity.noContent().build();
     }

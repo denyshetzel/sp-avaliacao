@@ -18,7 +18,7 @@ import java.util.Optional;
 public class LotacaoService {
 
     private final LotacaoRepository lotacaoRepository;
-    private final LotacaMapper lotacaMapper;
+    private final LotacaoMapper lotacaMapper;
 
     @Transactional(readOnly = true)
     public Page<LotacaoRequest> findAll(Pageable pageable) {

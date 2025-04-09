@@ -13,8 +13,6 @@ public class PessoaFotoResponse {
 
     private LocalDate data;
 
-    private String bucket;
-
     private String hash;
 
 }

@@ -1,5 +1,6 @@
 package br.com.avaliacao.domains.lotacao.dtos;
 
+import br.com.avaliacao.domains.unidade.dtos.UnidadeRequestID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -15,10 +16,7 @@ public class LotacaoRequest {
     private Integer id;
 
     @NotNull
-    private Integer pessoaId;
-
-    @NotNull
-    private Integer unidadeId;
+    private UnidadeRequestID unidade;
 
     @NotNull
     private LocalDate dataLotacao;

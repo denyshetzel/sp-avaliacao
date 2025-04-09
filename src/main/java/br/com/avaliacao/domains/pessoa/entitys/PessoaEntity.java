@@ -1,6 +1,7 @@
 package br.com.avaliacao.domains.pessoa.entitys;
 
 import br.com.avaliacao.domains.endereco.entitys.EnderecoEntity;
+import br.com.avaliacao.domains.lotacao.entitys.LotacaoEntity;
 import br.com.avaliacao.domains.pessoa.dtos.PessoaRequest;
 import br.com.avaliacao.exceptions.NotFoundException;
 import jakarta.persistence.*;
@@ -57,6 +58,9 @@ public abstract class PessoaEntity implements Serializable {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PessoaFotoEntity> fotos;
 
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private LotacaoEntity lotacao;
+
     @OneToOne(cascade=CascadeType.MERGE)
     @JoinTable(name = "pessoa_endereco",
             joinColumns = @JoinColumn(name = "pes_id", referencedColumnName = "pes_id"),
@@ -101,4 +105,12 @@ public abstract class PessoaEntity implements Serializable {
         this.endereco = null;
     }
 
+    public void addLotacao(LotacaoEntity lotacao) {
+        lotacao.setPessoa(this);
+        this.lotacao = lotacao;
+    }
+
+    public void removeLotacao() {
+        this.lotacao = null;
+    }
 }

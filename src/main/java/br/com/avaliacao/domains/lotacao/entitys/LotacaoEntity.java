@@ -4,6 +4,7 @@ import br.com.avaliacao.domains.lotacao.dtos.LotacaoRequest;
 import br.com.avaliacao.domains.pessoa.entitys.PessoaEntity;
 import br.com.avaliacao.domains.unidade.entitys.UnidadeEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,20 +22,25 @@ public class LotacaoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @Setter
+    @NotNull
+    @OneToOne
     @JoinColumn(name = "pes_id")
     private PessoaEntity pessoa;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "uni_id")
     private UnidadeEntity unidade;
 
+    @NotNull
     @Column(name = "lot_data_lotacao", nullable = false)
     private LocalDate dataLotacao;
 
-    @Column(name = "lot_data_remocao", nullable = false)
+    @Column(name = "lot_data_remocao")
     private LocalDate dataRemocao;
 
+    @NotNull
     @Column(name = "lot_portaria", nullable = false, length = 100)
     private Integer portaria;
 
