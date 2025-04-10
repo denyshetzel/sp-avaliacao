@@ -26,11 +26,6 @@ public class PessoaController {
         return pessoaService.findAll(pageable);
     }
 
-    @GetMapping("/filter")
-    public Page<PessoaResponse> getByFilter(@ParameterObject Pageable pageable, PessoaFilter pessoaFilter) {
-        return pessoaService.findByFilter(pessoaFilter, pageable);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PessoaResponse> getById(@PathVariable Integer id) {
         var pessoa = pessoaService.findById(id);

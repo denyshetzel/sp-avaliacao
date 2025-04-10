@@ -1,18 +1,21 @@
-version: '2'
-
 services:
-  #app:
-  #  image: 'docker-spring-boot-postgres:latest'
-  #  build:
-  #    context: .
-  #  container_name: app
-  #  depends_on:
-  #    - db
-   # environment:
-   #   - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-   #   - SPRING_DATASOURCE_USERNAME=compose-postgres
-   #   - SPRING_DATASOURCE_PASSWORD=compose-postgres
-   #   - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  avaliacao:
+    container_name: avaliacao
+    image: app/avaliacao:latest
+    build: .
+    depends_on:
+      - postgresdb
+      - minio
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "America/Cuiaba"
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/avaliacao-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_DRIVERCLASS: org.postgresql.Driver
 
   postgresdb:
     image: postgres:latest
@@ -42,7 +45,7 @@ services:
     volumes:
       - 'minio_data:/data'
     environment:
-      TZ: America/Cuiaba
+      TZ: "America/Cuiaba"
       LANG: en_US.UTF-8
       MINIO_PROMETHEUS_AUTH_TYPE: "public"
       MINIO_ACCESS_KEY: "root"

@@ -8,8 +8,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,7 +23,6 @@ import java.util.Set;
 @Table(name = "pessoa")
 @Getter
 @AllArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 public abstract class PessoaEntity implements Serializable {
@@ -80,7 +81,7 @@ public abstract class PessoaEntity implements Serializable {
     }
 
     public Set<PessoaFotoEntity> getFotos() {
-        return Collections.unmodifiableSet(fotos);
+        return ObjectUtils.isEmpty(fotos) ? Collections.emptySet() : Collections.unmodifiableSet(fotos);
     }
 
     public void addFoto(PessoaFotoEntity pessoaFoto) {

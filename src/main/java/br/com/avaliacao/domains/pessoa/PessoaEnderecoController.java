@@ -2,7 +2,6 @@ package br.com.avaliacao.domains.pessoa;
 
 import br.com.avaliacao.config.AppConstantes;
 import br.com.avaliacao.domains.endereco.EnderecoRequest;
-import br.com.avaliacao.domains.lotacao.dtos.LotacaoRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

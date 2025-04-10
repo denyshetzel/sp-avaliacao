@@ -30,7 +30,7 @@ public class EnderecoEntity {
     @Column(name = "end_bairro", nullable = false, length = 100)
     private String bairro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cid_id")
     private CidadeEntity cidade;
 

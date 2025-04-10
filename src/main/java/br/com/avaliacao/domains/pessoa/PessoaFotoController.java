@@ -2,20 +2,15 @@ package br.com.avaliacao.domains.pessoa;
 
 import br.com.avaliacao.config.AppConstantes;
 import br.com.avaliacao.domains.pessoa.dtos.PessoaFotoResponse;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 

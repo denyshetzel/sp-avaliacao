@@ -9,7 +9,6 @@ import br.com.avaliacao.domains.pessoa.dtos.PessoaRequest;
 import br.com.avaliacao.domains.pessoa.dtos.PessoaResponse;
 import br.com.avaliacao.domains.pessoa.entitys.PessoaEntity;
 import br.com.avaliacao.domains.pessoa.entitys.PessoaFotoEntity;
-import br.com.avaliacao.domains.pessoa.entitys.TipoServidor;
 import br.com.avaliacao.exceptions.NotFoundException;
 import br.com.avaliacao.infrastructure.MinioService;
 import jakarta.validation.Valid;
@@ -45,13 +44,13 @@ public class PessoaService {
         log.info("Iniciando findAll com pageable {}", pageable);
         var pessoas = pessoaRepository
                 .findAll(pageable)
-                .map(pessoaMapper::toDTO);
+                .map(pessoaMapper::toResponse);
         log.info("Finalizando findAll");
         return pessoas;
     }
 
     @Transactional(readOnly = true)
-    public Page<PessoaResponse> findByFilter(PessoaFilter pessoaFilter, Pageable pageable) {
+    public Page<PessoaEntity> findByFilter(PessoaFilter pessoaFilter, Pageable pageable) {
         log.info("Iniciando findByFilter com pageable {}", pageable);
         Specification<PessoaEntity> spec = Specification.where(null);
 
@@ -61,9 +60,10 @@ public class PessoaService {
         if (Objects.nonNull(pessoaFilter.getTipoServidor())) {
             spec = spec.and(PessoaSpecification.tipoServidor(pessoaFilter.getTipoServidor()));
         }
-
-        var pessoas = pessoaRepository.findAll(spec, pageable)
-                .map(pessoaMapper::toDTO);
+        if (Objects.nonNull(pessoaFilter.getNomeServidor())) {
+            spec = spec.and(PessoaSpecification.nomeServidorContains(pessoaFilter.getNomeServidor()));
+        }
+        var pessoas = pessoaRepository.findAll(spec, pageable);
         log.info("Finalizando findByFilter");
         return pessoas;
     }
@@ -73,7 +73,7 @@ public class PessoaService {
         log.info("Iniciando findById por id {}", id);
         PessoaResponse pessoa = pessoaRepository
                 .findById(id)
-                .map(pessoaMapper::toDTO)
+                .map(pessoaMapper::toResponse)
                 .orElseThrow(() -> new NotFoundException(id));
         log.debug("Pessoa encontrada: {}", pessoa);
         log.info("Finalizando findById");
@@ -85,7 +85,7 @@ public class PessoaService {
         log.info("Iniciando save com pessoa {}", pessoaRequest);
         var pessoa = pessoaMapper.toEntity(pessoaRequest);
         pessoaRepository.save(pessoa);
-        var pessoaResponse = pessoaMapper.toDTO(pessoa);
+        var pessoaResponse = pessoaMapper.toResponse(pessoa);
         log.info("Finalizando save");
         return pessoaResponse;
     }
@@ -168,7 +168,7 @@ public class PessoaService {
         var endereco = enderecoMapper.toEntity(enderecoRequest);
         pessoa.addEndereco(endereco);
         pessoaRepository.save(pessoa);
-        var pessoaResponse = pessoaMapper.toDTO(pessoa);
+        var pessoaResponse = pessoaMapper.toResponse(pessoa);
         log.info("Finalizando addEndereco");
         return pessoaResponse;
     }
@@ -189,7 +189,7 @@ public class PessoaService {
         var lotacao = lotacaoMapper.toEntity(lotacaoRequest);
         pessoa.addLotacao(lotacao);
         pessoaRepository.save(pessoa);
-        var pessoaResponse = pessoaMapper.toDTO(pessoa);
+        var pessoaResponse = pessoaMapper.toResponse(pessoa);
         log.info("Finalizando addLotacao");
         return pessoaResponse;
     }

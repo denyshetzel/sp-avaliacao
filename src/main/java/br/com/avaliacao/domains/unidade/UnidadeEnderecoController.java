@@ -2,13 +2,8 @@ package br.com.avaliacao.domains.unidade;
 
 import br.com.avaliacao.config.AppConstantes;
 import br.com.avaliacao.domains.endereco.EnderecoRequest;
-import br.com.avaliacao.domains.unidade.dtos.UnidadeRequest;
-import br.com.avaliacao.domains.unidade.dtos.UnidadeResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

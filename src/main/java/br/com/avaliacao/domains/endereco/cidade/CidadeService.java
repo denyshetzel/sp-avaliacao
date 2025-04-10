@@ -2,7 +2,6 @@ package br.com.avaliacao.domains.endereco.cidade;
 
 import br.com.avaliacao.domains.endereco.cidade.dtos.CidadeRequest;
 import br.com.avaliacao.domains.endereco.cidade.dtos.CidadeResponse;
-import br.com.avaliacao.domains.endereco.cidade.entitys.CidadeEntity;
 import br.com.avaliacao.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,14 +1,11 @@
 package br.com.avaliacao.domains.unidade.entitys;
 
 import br.com.avaliacao.domains.endereco.entitys.EnderecoEntity;
-import br.com.avaliacao.domains.lotacao.entitys.LotacaoEntity;
 import br.com.avaliacao.domains.unidade.dtos.UnidadeRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "unidade", indexes = @Index(columnList = "uni_sigla"))

@@ -7,14 +7,14 @@ import br.com.avaliacao.domains.pessoa.entitys.ServidorEfetivoEntity;
 import br.com.avaliacao.domains.pessoa.entitys.ServidorTemporarioEntity;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {PessoaMapper.class})
+@Mapper(componentModel = "spring")
 public interface PessoaMapper {
 
-    default PessoaResponse toDTO(PessoaEntity pessoa){
+    default PessoaResponse toResponse(PessoaEntity pessoa){
         if(pessoa instanceof ServidorEfetivoEntity servidorEfetivoEntity){
-            return toDTO(servidorEfetivoEntity);
+            return toResponse(servidorEfetivoEntity);
         } else if (pessoa instanceof ServidorTemporarioEntity servidorTemporarioEntity) {
-            return toDTO(servidorTemporarioEntity);
+            return toResponse(servidorTemporarioEntity);
         }
         throw new IllegalAccessError("Tipo de pessoa inválido.");
     }
@@ -28,14 +28,18 @@ public interface PessoaMapper {
         throw new IllegalAccessError("Tipo de pessoa inválido.");
     }
 
-    ServidorEfetivoResponse toDTO(ServidorEfetivoEntity pessoa);
+    ServidorEfetivoResponse toResponse(ServidorEfetivoEntity pessoa);
 
-    ServidorTemporarioResponse toDTO(ServidorTemporarioEntity pessoa);
+    ServidorTemporarioResponse toResponse(ServidorTemporarioEntity pessoa);
 
     ServidorEfetivoEntity toEntity(ServidorEfetivoRequest pessoa);
 
     ServidorTemporarioEntity toEntity(ServidorTemporarioRequest pessoa);
 
     PessoaFotoResponse toPessoaFotoResponse(PessoaFotoEntity pessoaFotoEntity);
+
+    PessoaLotacaoResponse toPessoaLotacaoResponse(PessoaEntity pessoa);
+
+    PessoaLotacaoEnderecoResponse toPessoaLotacaoEnderecoResponse(PessoaEntity pessoa);
 
 }

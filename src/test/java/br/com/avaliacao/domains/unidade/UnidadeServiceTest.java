@@ -84,7 +84,7 @@ class UnidadeServiceTest {
     void deve_salvar_unidade() {
         var unidadeRequest = UnidadeMock.unidadeRequest();
         var unidadeResponse = UnidadeMock.unidadeResponse();
-        var unidade = new UnidadeEntity();
+        var unidade = UnidadeMock.unidadeDB();
 
         when(unidadeMapper.toEntity(unidadeRequest)).thenReturn(unidade);
         when(unidadeRepository.save(unidade)).thenReturn(unidade);

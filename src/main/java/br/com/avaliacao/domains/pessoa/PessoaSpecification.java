@@ -10,8 +10,8 @@ public class PessoaSpecification {
 
     public static Specification<PessoaEntity> unidadeId(Integer unidadeId) {
         return (root, query, criteriaBuilder) -> {
-            var lotacaoJoin = root.join("lotacao"); // Realiza o join com a entidade Lotacao
-            var unidadeJoin = lotacaoJoin.join("unidade"); // Realiza o join com a entidade Unidade
+            var lotacaoJoin = root.join("lotacao");
+            var unidadeJoin = lotacaoJoin.join("unidade");
             return criteriaBuilder.equal(unidadeJoin.get("id"), unidadeId);
         };
     }
@@ -19,6 +19,11 @@ public class PessoaSpecification {
     public static Specification<PessoaEntity> tipoServidor(TipoServidor tipoServidor) {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("tipoServidor"), tipoServidor);
+    }
+
+    public static Specification<PessoaEntity> nomeServidorContains(String nomeServidor) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + nomeServidor.toLowerCase() + "%");
     }
 
 }

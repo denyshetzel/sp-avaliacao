@@ -9,4 +9,6 @@ public class PessoaFilter {
     private Integer unidadeId;
 
     private TipoServidor tipoServidor;
+
+    private String nomeServidor;
 }
